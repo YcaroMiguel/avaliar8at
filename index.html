@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Avaliador de Grupos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Avaliador de Grupos</h1>
+    <div class="add-group">
+      <input type="text" id="groupName" placeholder="Nome do grupo" />
+      <button onclick="addGroup()">Adicionar Grupo</button>
+    </div>
+    <div id="groups"></div>
+    <button class="finalize" onclick="showRanking()">Ver Ranking</button>
+    <div id="ranking" class="hidden"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
