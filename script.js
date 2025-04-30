@@ -1,4 +1,5 @@
 let groups = [];
+let students = [];
 
 function addGroup() {
   const groupName = document.getElementById("groupName").value.trim();
@@ -6,6 +7,7 @@ function addGroup() {
 
   const group = {
     name: groupName,
+    students: [],
     categories: {
       slideVisual: 0,
       slideInformativo: 0,
@@ -19,6 +21,15 @@ function addGroup() {
   document.getElementById("groupName").value = "";
 }
 
+function addStudent() {
+  const studentName = document.getElementById("studentName").value.trim();
+  if (!studentName) return alert("Digite o nome do aluno.");
+
+  students.push(studentName);
+  renderStudents();
+  document.getElementById("studentName").value = "";
+}
+
 function renderGroups() {
   const container = document.getElementById("groups");
   container.innerHTML = "";
@@ -27,6 +38,10 @@ function renderGroups() {
     container.innerHTML += `
       <div class="group">
         <h3>${group.name}</h3>
+        <div class="student-list">
+          <strong>Alunos:</strong>
+          ${group.students.length > 0 ? group.students.map(student => `<li>${student}</li>`).join('') : '<li>Nenhum aluno adicionado</li>'}
+        </div>
         <div class="category">
           <label>Slide (visual):</label>
           <input type="number" min="0" max="10" onchange="updateScore(${index}, 'slideVisual', this.value)">
@@ -43,9 +58,33 @@ function renderGroups() {
           <label>Dinâmica:</label>
           <input type="number" min="0" max="10" onchange="updateScore(${index}, 'dinamica', this.value)">
         </div>
+        <div>
+          <input type="text" id="newStudent${index}" placeholder="Adicionar aluno ao grupo" />
+          <button onclick="addStudentToGroup(${index})">Adicionar Aluno</button>
+        </div>
       </div>
     `;
   });
+}
+
+function renderStudents() {
+  const groupSelect = document.querySelectorAll('input[type="text"]');
+  groupSelect.forEach((input, index) => {
+    const group = groups[index];
+    input.addEventListener('keypress', function(event) {
+      if (event.key === "Enter") {
+        addStudentToGroup(index);
+      }
+    });
+  });
+}
+
+function addStudentToGroup(groupIndex) {
+  const studentInput = document.getElementById(`newStudent${groupIndex}`).value.trim();
+  if (!studentInput) return alert("Digite o nome do aluno para adicionar.");
+
+  groups[groupIndex].students.push(studentInput);
+  renderGroups();
 }
 
 function updateScore(groupIndex, category, value) {
@@ -68,4 +107,4 @@ function showRanking() {
   });
 
   container.classList.remove("hidden");
-      }
+}
